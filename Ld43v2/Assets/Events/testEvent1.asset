@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b18216c45c78ecc4084fdcd5c6008616, type: 3}
+  m_Name: NewEvent
+  m_EditorClassIdentifier: 
+  Description: 
+  eventRequarments:
+    populationMin: 0
+    populationMax: 0
+    moneyMin: 0
+    moneyMax: 0
+    fearMin: 0
+    fearMax: 0
+    god1Min: 0
+    god1Max: 0
+    god2Min: 0
+    god2Max: 0
+    god3Min: 0
+    god3Max: 0
+  eventVariants:
+  - text: 
+    variantRequarments:
+      populationMin: 0
+      populationMax: 0
+      moneyMin: 0
+      moneyMax: 0
+      fearMin: 0
+      fearMax: 0
+      god1Min: 0
+      god1Max: 0
+      god2Min: 0
+      god2Max: 0
+      god3Min: 0
+      god3Max: 0
+    eventResult:
+      populationChange: 0
+      moneyChange: 0
+      fearChange: 0
+      god1Change: 0
+      god2Change: 0
+      god3Change: 0
+      eventStatus: []
+      eventToActivate: []
+  eventToActivate:
+  - {fileID: 0}
+  isRepeat: 1
+  isActive: 1
+  coolDown: 0
