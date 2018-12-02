@@ -11,11 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5d95358f0f0fb43b91b5c5a94e2d58, type: 3}
   m_Name: TestEventStatus
   m_EditorClassIdentifier: 
-  Description: 
-  duration: 1
-  populationChangeInCycle: 0
-  moneyChangeInCycle: 0
-  fearChangeInCycle: 0
-  god1ChangeInCycle: 0
-  god2ChangeInCycle: 0
-  god3ChangeInCycle: 0
+  Description: Test Status
+  duration: 2
+  populationChangeInCycle: -100
+  moneyChangeInCycle: 30
+  fearChangeInCycle: 2
+  god1ChangeInCycle: 1
+  god2ChangeInCycle: 2
+  god3ChangeInCycle: 3

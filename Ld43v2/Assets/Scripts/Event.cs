@@ -9,6 +9,12 @@ using UnityEngine;
 public class Event : ScriptableObject
 {
     /// <summary>
+    /// Название эвента
+    /// </summary>
+    [SerializeField]
+    public string Name;
+
+    /// <summary>
     /// Описание эвента
     /// </summary>
     [SerializeField]
@@ -187,4 +193,10 @@ public class EventResult
     /// </summary>
     [SerializeField]
     public Event[] eventToActivate;
+
+    /// <summary>
+    /// Текст результата
+    /// </summary>
+    [SerializeField]
+    public string resultText = "";
 }

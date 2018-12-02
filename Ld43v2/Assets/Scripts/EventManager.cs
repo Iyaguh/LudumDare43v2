@@ -78,6 +78,55 @@ public class EventManager : Singleton<EventManager> {
     }
 
     /// <summary>
+    /// Применяем выбранный результат
+    /// </summary>
+    /// <param name="targetEvent">Эвент, чей результат</param>
+    /// <param name="eventResult">Сам результат</param>
+    public void DoEventResult(Event targetEvent, EventResult eventResult)
+    {
+        //мгновенный результат
+        gameHandler.Money += eventResult.moneyChange;
+        gameHandler.Population += eventResult.populationChange;
+        gameHandler.Fear += eventResult.fearChange;
+        gameHandler.God1 += eventResult.god1Change;
+        gameHandler.God2 += eventResult.god2Change;
+        gameHandler.God3 += eventResult.god3Change;
+
+        //статус
+        //TO_DO
+
+        //активируем/деактивируем эвенты
+        if (!targetEvent.isRepeat)
+        {
+            for (int i=0; i<eventsInCooling.Count; i++)
+            {
+                if (eventsInCooling[i].ItEvent == targetEvent)
+                {
+                    eventsInCooling.RemoveAt(i);
+                    break;
+                }
+            }
+
+            eventPool.Add(targetEvent);
+
+            SetEventActive(targetEvent, false);            
+        }
+
+        for (int i=0; i < targetEvent.eventToActivate.Length; i++)
+        {
+            SetEventActive(targetEvent.eventToActivate[i], true);
+        }
+
+        for (int i=0; i< eventResult.eventToActivate.Length; i++)
+        {
+            SetEventActive(eventResult.eventToActivate[i], true);
+        }
+
+        //сообщаем EventUI что мы все
+        EventUI.Instance.FinishEvent();
+    }
+
+    /// <summary>
     /// Актуализация доступности евентов
     /// </summary>
     private void EventAccessUpdate()
