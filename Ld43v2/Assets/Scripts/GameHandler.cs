@@ -132,12 +132,10 @@ public class GameHandler : MonoBehaviour {
 
             case GameState.Start:
                 //call event
- 
-
+                EventUI.Instance.StartEvent();
                 gameState = GameState.Event;
                 Cycle += 1;
                 return;
-
             case GameState.Event:
                 // вызвать функцию ивента
                 // деактивировать кнопки
@@ -145,10 +143,7 @@ public class GameHandler : MonoBehaviour {
 
             case GameState.PlayerChoice:
                 //активировать кнопки
-
                 return;
-
-
         }
     }
 
