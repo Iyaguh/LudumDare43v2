@@ -50,6 +50,12 @@ public class EventManager : Singleton<EventManager> {
         //актуализация информации о доступных эвентах
         EventAccessUpdate();
 
+        if (availibleEvents.Count == 0)
+        {
+            Debug.LogWarning("[Event Manager] Can't get any events");
+            return null;
+        }
+
         int currEventIdx = Random.Range(0, availibleEvents.Count - 1);
 
         eventsInCooling.Add(new EventCooling(availibleEvents[currEventIdx], gameHandler.Cycle));
@@ -187,27 +193,27 @@ public class EventManager : Singleton<EventManager> {
         {
             return false;
         }
-        else if (gameHandler.Money < eventRequarments.moneyMin && gameHandler.Money > eventRequarments.moneyMax)
+        else if (gameHandler.Money < eventRequarments.moneyMin && eventRequarments.moneyMax > 0 ? gameHandler.Money > eventRequarments.moneyMax : true)
         {
             return false;
         }
-        else if (gameHandler.Population < eventRequarments.populationMin && gameHandler.Population > eventRequarments.populationMax)
+        else if (gameHandler.Population < eventRequarments.populationMin && eventRequarments.populationMax > 0 ? gameHandler.Population > eventRequarments.populationMax : true)
         {
             return false;
         }
-        else if (gameHandler.Fear < eventRequarments.fearMin && gameHandler.Fear > eventRequarments.fearMax)
+        else if (gameHandler.Fear < eventRequarments.fearMin && eventRequarments.fearMax > 0 ? gameHandler.Fear > eventRequarments.fearMax : true)
         {
             return false;
         }
-        else if (gameHandler.God1 < eventRequarments.god1Min && gameHandler.God1 > eventRequarments.god1Max)
+        else if (gameHandler.God1 < eventRequarments.god1Min && eventRequarments.god1Max > 0 ? gameHandler.God1 > eventRequarments.god1Max : true)
         {
             return false;
         }
-        else if (gameHandler.God2 < eventRequarments.god2Min && gameHandler.God2 > eventRequarments.god2Max)
+        else if (gameHandler.God2 < eventRequarments.god2Min && eventRequarments.god2Max > 0 ? gameHandler.God2 > eventRequarments.god2Max : true)
         {
             return false;
         }
-        else if (gameHandler.God3 < eventRequarments.god3Min && gameHandler.God3 > eventRequarments.god3Max)
+        else if (gameHandler.God3 < eventRequarments.god3Min && eventRequarments.god3Max > 0 ? gameHandler.God3 > eventRequarments.god3Max : true)
         {
             return false;
         }
