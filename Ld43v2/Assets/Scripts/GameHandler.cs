@@ -13,7 +13,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             cycle = value;
-
+            //анимация
         }
         get
         {
@@ -132,8 +132,8 @@ public class GameHandler : MonoBehaviour {
             case GameState.Start:
                 //call event
 
-                currentEventPanel = Instantiate(eventPanelPrefab, this.transform);
                 gameState = GameState.Event;
+                Cycle += 1;
                 return;
 
             case GameState.Event:
@@ -153,7 +153,6 @@ public class GameHandler : MonoBehaviour {
     public void EventFinished ()
     {
         gameState = GameState.PlayerChoice;
-        Destroy(currentEventPanel);
     }
 
     public void PlayerChoiceMade ()
