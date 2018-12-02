@@ -27,7 +27,7 @@ MonoBehaviour:
     god3Min: 0
     god3Max: 0
   eventVariants:
-  - text: 
+  - text: dsfdfsdfsdfsfdsfdsfdsf
     variantRequarments:
       populationMin: 0
       populationMax: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
       eventStatus:
       - {fileID: 11400000, guid: e42d24c00bfdd5d4698729938f778520, type: 2}
       eventToActivate: []
+      resultText: 
   eventToActivate: []
   isRepeat: 1
   isActive: 1

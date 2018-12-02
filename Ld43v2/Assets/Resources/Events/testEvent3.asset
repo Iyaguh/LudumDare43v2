@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b18216c45c78ecc4084fdcd5c6008616, type: 3}
   m_Name: testEvent3
   m_EditorClassIdentifier: 
+  Name: 
   Description: test3
   eventRequarments:
     populationMin: 0

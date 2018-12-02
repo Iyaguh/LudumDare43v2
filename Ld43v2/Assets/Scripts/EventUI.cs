@@ -46,7 +46,7 @@ public class EventUI : Singleton<EventUI>
 
         foreach (Button button in _chooses)
         {            
-            //button.gameObject.SetActive(false);
+            button.gameObject.SetActive(false);
         }
 
         //при начале эвента
@@ -122,6 +122,8 @@ public class EventUI : Singleton<EventUI>
         Text txt = _chooses[0].gameObject.GetComponentInChildren<Text>();
 
         txt.text = "Продолжить";
+
+        _chooses[0].gameObject.SetActive(true);
 
         _eventDescription.text += _currentResult.resultText;
 

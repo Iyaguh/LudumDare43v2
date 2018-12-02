@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b18216c45c78ecc4084fdcd5c6008616, type: 3}
   m_Name: testEvent1
   m_EditorClassIdentifier: 
+  Name: 
   Description: test1
   eventRequarments:
     populationMin: 0
@@ -49,6 +50,7 @@ MonoBehaviour:
       god3Change: 0
       eventStatus: []
       eventToActivate: []
+      resultText: 
   eventToActivate: []
   isRepeat: 1
   isActive: 1
