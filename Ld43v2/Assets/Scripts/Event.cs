@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// Класс представляет собой игровой эвент
@@ -13,6 +14,7 @@ public class Event : ScriptableObject
     /// </summary>
     [SerializeField]
     public string Name;
+
 
     /// <summary>
     /// Описание эвента
@@ -41,20 +43,22 @@ public class Event : ScriptableObject
     /// <summary>
     /// Флаг повторения эвента (при false эвент отключит сам себя)
     /// </summary>
-    [SerializeField]
     public bool isRepeat = true;
+    public bool isOnCoolDown = false;
+
+
+    public int cycleWhenCoolDownStarted;
 
     /// <summary>
     /// Статус активности эвента
     /// </summary>
-    [SerializeField]
     public bool isActive = true;
 
     /// <summary>
     /// Перезарядка эвента в циклах
     /// </summary>
-    [SerializeField]
     public int coolDown = 0;
+
 
 }
 

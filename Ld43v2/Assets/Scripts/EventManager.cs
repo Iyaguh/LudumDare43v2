@@ -13,15 +13,21 @@ public class EventManager : Singleton<EventManager> {
     private List<Event> availibleEvents;
 
     //эвенты не доступные из-за требований
-    private List<Event> eventPool;
+    private List<Event> notAvailableEvents;
 
-    private List<EventCooling> eventsInCooling;
+    //Все события
+    private Event [] allEvents;
+
+    //
+    private List<Event> poolOfEvents;
+
+//    private List<EventCooling> eventsInCooling;
 
     protected override void Awake()
     {
         base.Awake();
 
-        Event[] allEvents = Resources.LoadAll<Event>("Events");
+        allEvents = Resources.LoadAll<Event>("Events");
 
         if (allEvents.Length == 0)
         {
@@ -29,16 +35,27 @@ public class EventManager : Singleton<EventManager> {
             return;
         }
 
-        eventPool = new List<Event>();
+        notAvailableEvents = new List<Event>();
         availibleEvents = new List<Event>();
-        eventsInCooling = new List<EventCooling>();
+//        eventsInCooling = new List<EventCooling>();
 
         for (int i = 0; i < allEvents.Length; i++)
         {
-            eventPool.Add(allEvents[i]);
+            notAvailableEvents.Add(allEvents[i]);
         }
 
-        
+        // создаем список доступных ивентов
+        for (int i = 0; i < allEvents.Length; i++)
+        {
+            if (allEvents[i].isActive)
+            {
+                availibleEvents.Add(allEvents[i]);
+            }
+        }
+
+        poolOfEvents = new List<Event>();
+
+
 
     }
 
@@ -47,8 +64,68 @@ public class EventManager : Singleton<EventManager> {
     /// </summary>    
     public Event GetEvent()
     {
+        // 0. Вернуть ивенты с кулдауна
+
+        for (int i = 0; i < allEvents.Length; i++)
+        {
+            if (IsCoolDownOver(allEvents[i]))
+            {
+                allEvents[i].isActive = true;
+                allEvents[i].isOnCoolDown = false;
+            }              
+        }
+
+
+        // 1. получить список активных ивентов
+
+
+        for (int i = 0; i < allEvents.Length; i++)
+        {
+            if (allEvents[i].isActive)
+            {
+                poolOfEvents.Add(allEvents[i]);
+            }
+        }
+
+        //  & AreRequirementsForEventMet(allEvents[i])
+
+
+        // 2. по этому списку проверить выполнение требований
+
+
+
+        // 3. случайным образом выбрать ивент
+
+        Event eventToReturn;
+
+        eventToReturn = poolOfEvents[Random.Range(0, poolOfEvents.Count)];
+
+        if (!eventToReturn.isRepeat)
+        {
+            eventToReturn.isActive = false;
+        }
+        else if (eventToReturn.isRepeat & eventToReturn.coolDown !=0)
+        {
+            eventToReturn.isActive = false;
+            eventToReturn.isOnCoolDown = true;
+            eventToReturn.cycleWhenCoolDownStarted = gameHandler.Cycle;
+        }
+
+        poolOfEvents.Clear();
+
+        return eventToReturn;
+        
+
+
+
         //актуализация информации о доступных эвентах
-        EventAccessUpdate();
+//        EventAccessUpdate();
+
+
+
+
+
+        /*
 
         if (availibleEvents.Count == 0)
         {
@@ -59,14 +136,25 @@ public class EventManager : Singleton<EventManager> {
         int currEventIdx = Random.Range(0, availibleEvents.Count - 1);
 
         eventsInCooling.Add(new EventCooling(availibleEvents[currEventIdx], gameHandler.Cycle));
-
         Event retEvent = availibleEvents[currEventIdx];
-
         availibleEvents.RemoveAt(currEventIdx);
-
         return retEvent;
-
+        */
     }
+
+    public bool IsCoolDownOver (Event targetEvent)
+    {
+        if (gameHandler.Cycle - targetEvent.cycleWhenCoolDownStarted >= targetEvent.coolDown)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*
 
     /// <summary>
     /// Установка эвента в состояние активности/неактивности
@@ -75,13 +163,16 @@ public class EventManager : Singleton<EventManager> {
     /// <param name="isActivate">Сделать активным</param>
     public void SetEventActive(Event targetEvent, bool isActivate)
     {
-        if (eventPool.Contains(targetEvent))
+        if (notAvailableEvents.Contains(targetEvent))
         {
-            int idx = eventPool.IndexOf(targetEvent);
+            int idx = notAvailableEvents.IndexOf(targetEvent);
 
-            eventPool[idx].isActive = isActivate;
+            notAvailableEvents[idx].isActive = isActivate;
         }
     }
+
+    */
+
 
     /// <summary>
     /// Применяем выбранный результат
@@ -100,7 +191,7 @@ public class EventManager : Singleton<EventManager> {
 
         //статус
         //TO_DO
-
+        /*
         //активируем/деактивируем эвенты
         if (!targetEvent.isRepeat)
         {
@@ -113,7 +204,7 @@ public class EventManager : Singleton<EventManager> {
                 }
             }
 
-            eventPool.Add(targetEvent);
+            notAvailableEvents.Add(targetEvent);
 
             SetEventActive(targetEvent, false);            
         }
@@ -127,10 +218,18 @@ public class EventManager : Singleton<EventManager> {
         {
             SetEventActive(eventResult.eventToActivate[i], true);
         }
-
+        */
         //сообщаем EventUI что мы все
         EventUI.Instance.FinishEvent();
     }
+
+    
+
+
+
+
+        /*
+
 
     /// <summary>
     /// Актуализация доступности евентов
@@ -139,9 +238,10 @@ public class EventManager : Singleton<EventManager> {
     {
         List<Event> eventToDisactivate = new List<Event>();
 
+        // удаляется ивент, который не соответствует требованиям из доступных ивентов.
         for (int i=0; i < availibleEvents.Count; i++)
         {
-            if (!isCorrectEvent(availibleEvents[i]))
+            if (!AreRequirementsForEventMet(availibleEvents[i]))
             {
                 eventToDisactivate.Add(availibleEvents[i]);                               
                 availibleEvents.RemoveAt(i);
@@ -149,29 +249,33 @@ public class EventManager : Singleton<EventManager> {
             }
         }
 
-        for (int i = 0; i < eventPool.Count; i++)
+        // возвращает недоступные ивенты в список доступных
+
+        for (int i = 0; i < notAvailableEvents.Count; i++)
         {
-            if (!isCorrectEvent(eventPool[i]))
+            if (!AreRequirementsForEventMet(notAvailableEvents[i]))
             {
-                availibleEvents.Add(eventPool[i]);
-                eventPool.RemoveAt(i);
+                availibleEvents.Add(notAvailableEvents[i]);
+                notAvailableEvents.RemoveAt(i);
                 i--;
             }
         }
 
-        eventPool.AddRange(eventToDisactivate);
+        notAvailableEvents.AddRange(eventToDisactivate);
+
+
 
         for (int i = 0; i < eventsInCooling.Count; i++)
         {
             if (eventsInCooling[i].isCoolDown(gameHandler.Cycle))
             {
-                if (isCorrectEvent(eventsInCooling[i].ItEvent))
+                if (AreRequirementsForEventMet(eventsInCooling[i].ItEvent))
                 {
                     availibleEvents.Add(eventsInCooling[i].ItEvent);
                 }
                 else
                 {
-                    eventPool.Add(eventsInCooling[i].ItEvent);
+                    notAvailableEvents.Add(eventsInCooling[i].ItEvent);
                 }
 
                 eventsInCooling.RemoveAt(i);
@@ -180,12 +284,14 @@ public class EventManager : Singleton<EventManager> {
         }
     }
 
+    */
+
 
     /// <summary>
     /// Проверяет эвент на доступность
     /// </summary>
     /// <param name="targetEvent">Эвент для проверки</param>    
-    private bool isCorrectEvent(Event targetEvent)
+    private bool AreRequirementsForEventMet(Event targetEvent)
     {
         EventRequarments eventRequarments = targetEvent.eventRequarments;
 
@@ -222,6 +328,18 @@ public class EventManager : Singleton<EventManager> {
         return true;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            for (int i = 0; i < availibleEvents.Count; i++)
+            {
+                Debug.Log(poolOfEvents[i].name + " имя доступного ивента");
+            }
+        }
+    }
+
+    /*
 
     private class EventCooling
     {
@@ -239,5 +357,8 @@ public class EventManager : Singleton<EventManager> {
         {
             return (currentCycle - _cycleAtStart >= _currentEvent.coolDown);
         }
+
     }
+
+    */
 }
