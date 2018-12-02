@@ -132,6 +132,7 @@ public class GameHandler : MonoBehaviour {
 
             case GameState.Start:
                 //call event
+ 
 
                 gameState = GameState.Event;
                 Cycle += 1;
