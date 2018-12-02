@@ -44,6 +44,12 @@ public class Event : ScriptableObject
     [SerializeField]
     public bool isActive = true;
 
+    /// <summary>
+    /// Перезарядка эвента в циклах
+    /// </summary>
+    [SerializeField]
+    public int coolDown = 0;
+
 }
 
 /// <summary>

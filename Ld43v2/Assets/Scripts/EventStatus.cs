@@ -5,9 +5,15 @@ using UnityEngine;
 /// <summary>
 /// Класс представляет собой статус от эвента
 /// </summary>
-[CreateAssetMenu(fileName = "NewEvent", menuName = "New Event")]
+[CreateAssetMenu(fileName = "NewEventStatus", menuName = "New Event Status")]
 public class EventStatus : ScriptableObject
 {
+    /// <summary>
+    /// Описание статуса
+    /// </summary>
+    [SerializeField]
+    public string Description = "";
+
     /// <summary>
     /// Длительность статуса в циклах
     /// </summary>

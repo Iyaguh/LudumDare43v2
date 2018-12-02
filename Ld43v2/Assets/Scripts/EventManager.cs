@@ -6,15 +6,16 @@ using UnityEngine;
 /// Менджер эвентов
 /// </summary>
 public class EventManager : Singleton<EventManager> {
-    
+
+    public GameHandler gameHandler;
+
     //доступные эвенты
-    private Event[] availibleEvents;
+    private List<Event> availibleEvents;
 
-    //активные эвенты не доступные из-за требований
-    private List<Event> activeEventPool;
+    //эвенты не доступные из-за требований
+    private List<Event> eventPool;
 
-    //неактивные эвенты
-    private List<Event> disactivedEventPool;
+    private List<EventCooling> eventsInCooling;
 
     protected override void Awake()
     {
@@ -28,16 +29,160 @@ public class EventManager : Singleton<EventManager> {
             return;
         }
 
+        eventPool = new List<Event>();
+        availibleEvents = new List<Event>();
+        eventsInCooling = new List<EventCooling>();
+
         for (int i = 0; i < allEvents.Length; i++)
         {
-            if (allEvents[i].isActive)
+            eventPool.Add(allEvents[i]);
+        }
+
+        
+
+    }
+
+    /// <summary>
+    /// Получить очередной эвент
+    /// </summary>    
+    public Event GetEvent()
+    {
+        //актуализация информации о доступных эвентах
+        EventAccessUpdate();
+
+        int currEventIdx = Random.Range(0, availibleEvents.Count - 1);
+
+        eventsInCooling.Add(new EventCooling(availibleEvents[currEventIdx], gameHandler.Cycle));
+
+        Event retEvent = availibleEvents[currEventIdx];
+
+        availibleEvents.RemoveAt(currEventIdx);
+
+        return retEvent;
+
+    }
+
+    /// <summary>
+    /// Установка эвента в состояние активности/неактивности
+    /// </summary>
+    /// <param name="targetEvent">Целевой эвент</param>
+    /// <param name="isActivate">Сделать активным</param>
+    public void SetEventActive(Event targetEvent, bool isActivate)
+    {
+        if (eventPool.Contains(targetEvent))
+        {
+            int idx = eventPool.IndexOf(targetEvent);
+
+            eventPool[idx].isActive = isActivate;
+        }
+    }
+
+    /// <summary>
+    /// Актуализация доступности евентов
+    /// </summary>
+    private void EventAccessUpdate()
+    {
+        List<Event> eventToDisactivate = new List<Event>();
+
+        for (int i=0; i < availibleEvents.Count; i++)
+        {
+            if (!isCorrectEvent(availibleEvents[i]))
             {
-                activeEventPool.Add(allEvents[i]);
-            }
-            else
-            {
-                disactivedEventPool.Add(allEvents[i]);
+                eventToDisactivate.Add(availibleEvents[i]);                               
+                availibleEvents.RemoveAt(i);
+                i--;
             }
         }
-    }    
+
+        for (int i = 0; i < eventPool.Count; i++)
+        {
+            if (!isCorrectEvent(eventPool[i]))
+            {
+                availibleEvents.Add(eventPool[i]);
+                eventPool.RemoveAt(i);
+                i--;
+            }
+        }
+
+        eventPool.AddRange(eventToDisactivate);
+
+        for (int i = 0; i < eventsInCooling.Count; i++)
+        {
+            if (eventsInCooling[i].isCoolDown(gameHandler.Cycle))
+            {
+                if (isCorrectEvent(eventsInCooling[i].ItEvent))
+                {
+                    availibleEvents.Add(eventsInCooling[i].ItEvent);
+                }
+                else
+                {
+                    eventPool.Add(eventsInCooling[i].ItEvent);
+                }
+
+                eventsInCooling.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Проверяет эвент на доступность
+    /// </summary>
+    /// <param name="targetEvent">Эвент для проверки</param>    
+    private bool isCorrectEvent(Event targetEvent)
+    {
+        EventRequarments eventRequarments = targetEvent.eventRequarments;
+
+        if (!targetEvent.isActive)
+        {
+            return false;
+        }
+        else if (gameHandler.Money < eventRequarments.moneyMin && gameHandler.Money > eventRequarments.moneyMax)
+        {
+            return false;
+        }
+        else if (gameHandler.Population < eventRequarments.populationMin && gameHandler.Population > eventRequarments.populationMax)
+        {
+            return false;
+        }
+        else if (gameHandler.Fear < eventRequarments.fearMin && gameHandler.Fear > eventRequarments.fearMax)
+        {
+            return false;
+        }
+        else if (gameHandler.God1 < eventRequarments.god1Min && gameHandler.God1 > eventRequarments.god1Max)
+        {
+            return false;
+        }
+        else if (gameHandler.God2 < eventRequarments.god2Min && gameHandler.God2 > eventRequarments.god2Max)
+        {
+            return false;
+        }
+        else if (gameHandler.God3 < eventRequarments.god3Min && gameHandler.God3 > eventRequarments.god3Max)
+        {
+            return false;
+        }
+        
+
+        return true;
+    }
+
+
+    private class EventCooling
+    {
+        public Event ItEvent { get { return _currentEvent; } }
+        private Event _currentEvent;
+        private int _cycleAtStart;
+
+        public EventCooling(Event currentEvent, int currentCycle)
+        {
+            _currentEvent = currentEvent;
+            _cycleAtStart = currentCycle;
+        }
+
+        public bool isCoolDown(int currentCycle)
+        {
+            return (currentCycle - _cycleAtStart >= _currentEvent.coolDown);
+        }
+    }
 }
