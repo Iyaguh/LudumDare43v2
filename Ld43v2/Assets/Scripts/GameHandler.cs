@@ -31,7 +31,6 @@ public class GameHandler : MonoBehaviour {
             return money;
         }
     }
-
     private float fear = 5;
     public float Fear
     {
@@ -113,7 +112,7 @@ public class GameHandler : MonoBehaviour {
 
     public void ReturnTest ()
     {
-        cycleText.text = Test.ToString();
+        
     }
 
 }
