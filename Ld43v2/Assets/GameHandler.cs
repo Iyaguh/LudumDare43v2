@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameHandler : MonoBehaviour {
 
@@ -13,6 +15,21 @@ public class GameHandler : MonoBehaviour {
     public float god2 = 20;
     public float god3 = 20;
 
+    private int test = 1;
+    public int Test
+    {
+        get
+        {
+            return test;
+        }
+    }
+
+    [Header("References to the scene")]
+    public TextMeshProUGUI cycleText;
+
+
+
+
 	// Use this for initialization
 	void Start () {
 		
@@ -22,4 +39,10 @@ public class GameHandler : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void ReturnTest ()
+    {
+        cycleText.text = Test.ToString();
+    }
+
 }
