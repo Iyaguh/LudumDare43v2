@@ -7,22 +7,93 @@ using TMPro;
 public class GameHandler : MonoBehaviour {
 
 
-    public int cycle = 0;
-    public int money = 20;
-    public float fear = 5;
-    public float population = 20;
-    public float god1 = 20;
-    public float god2 = 20;
-    public float god3 = 20;
-
-    private int test = 1;
-    public int Test
+    private int cycle = 0;
+    public int Cycle
     {
+        set
+        {
+            cycle = value;
+        }
         get
         {
-            return test;
+            return cycle;
         }
     }
+    private int money = 20;
+    public int Money
+    {
+        set
+        {
+            money = value;
+        }
+        get
+        {
+            return money;
+        }
+    }
+
+    private float fear = 5;
+    public float Fear
+    {
+        set
+        {
+            fear = value;
+        }
+        get
+        {
+            return fear;
+        }
+    }
+    private float population = 20;
+    public float Population
+    {
+        set
+        {
+            population = value;
+        }
+        get
+        {
+            return population;
+        }
+    }
+    private float god1 = 20;
+    public float God1
+    {
+        set
+        {
+            god1 = value;
+        }
+        get
+        {
+            return god1;
+        }
+    }
+    private float god2 = 20;
+    public float God2
+    {
+        set
+        {
+            god2 = value;
+        }
+        get
+        {
+            return god2;
+        }
+    }
+    private float god3 = 20;
+    public float God3
+    {
+        set
+        {
+            god3 = value;
+        }
+        get
+        {
+            return god3;
+        }
+    }
+
+
 
     [Header("References to the scene")]
     public TextMeshProUGUI cycleText;
