@@ -13,7 +13,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             cycle = value;
-            //анимация
+            cycleIndicator.ChangeValue(cycle);
         }
         get
         {
@@ -104,6 +104,7 @@ public class GameHandler : MonoBehaviour {
     public TextMeshProUGUI fearText;
     public GameObject eventPanelPrefab;
     public GameObject currentEventPanel;
+    public IndicatorHandler cycleIndicator;
 
 
     [Header("AudioReferences")]
@@ -163,7 +164,7 @@ public class GameHandler : MonoBehaviour {
 
     public void ReturnTest ()
     {
-        
+        Cycle += 1;
     }
 
 }

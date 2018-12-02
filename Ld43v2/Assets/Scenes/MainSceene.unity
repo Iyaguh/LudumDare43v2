@@ -2696,6 +2696,7 @@ GameObject:
   - component: {fileID: 1486642347}
   - component: {fileID: 1486642349}
   - component: {fileID: 1486642348}
+  - component: {fileID: 1486642350}
   m_Layer: 5
   m_Name: CyclePanel
   m_TagString: Untagged
@@ -2756,6 +2757,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1486642346}
+--- !u!114 &1486642350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1486642346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8290c76bd2c69e2479ec88613d28751b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numericalValueText: {fileID: 2032976728}
 --- !u!1 &1519517302
 GameObject:
   m_ObjectHideFlags: 0
