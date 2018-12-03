@@ -100,6 +100,8 @@ public class GameHandler : MonoBehaviour {
     }
 
 
+    private GameObject failPanel = null;
+
     public enum GameState { Start, Event, PlayerChoice, ApplyEventResults, ApplySacrifieceResults}
     public GameState gameState = GameState.PlayerChoice;
 
@@ -109,6 +111,7 @@ public class GameHandler : MonoBehaviour {
     public TextMeshProUGUI populationText;
     public TextMeshProUGUI fearText;
     public GameObject eventPanelPrefab;
+    public GameObject finishPanelPrefab;
     public GameObject currentEventPanel;
     public IndicatorHandler cycleIndicator;
     public IndicatorHandler moneyIndicator;
@@ -151,8 +154,7 @@ public class GameHandler : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        CheckGameState();
-
+        CheckGameState();        
     }
 
 
@@ -163,10 +165,11 @@ public class GameHandler : MonoBehaviour {
         {
 
             case GameState.Start:
+                CheckFinState();
                 //call event
                 EventUI.Instance.StartEvent();
                 gameState = GameState.Event;
-                Cycle += 1;
+                Cycle += 1;                
                 return;
             case GameState.Event:
                 // вызвать функцию ивента
@@ -203,4 +206,122 @@ public class GameHandler : MonoBehaviour {
         Cycle += 1;
     }
 
+
+    private void CheckFinState()
+    {
+        //fail state
+        FailStates failedState = isFailed();
+
+        if (failedState != FailStates.None)
+        {
+            gameState = GameState.Event;
+
+            failPanel = Instantiate(finishPanelPrefab, this.transform);
+
+            TextMeshProUGUI[] textMeshPros = failPanel.GetComponentsInChildren<TextMeshProUGUI>();
+            
+            foreach (TextMeshProUGUI txt in textMeshPros)
+            {
+                if (txt.gameObject.name.Contains("EventHeaderText"))
+                {
+                    txt.text = "You failed!";
+                }
+                else if (txt.gameObject.name.Contains("EventDescriptionText"))
+                {
+                    switch (failedState)
+                    {
+                        case FailStates.PopulationZero:
+                            txt.text = "Only sculls and bones at the village. You stay alone with your greedy gods...";
+                            break;
+
+                        case FailStates.FearZero:
+                            txt.text = "What?! Sacrifice to the gods? Are you kidding me? Go for a walk, old man!";
+                            break;
+
+                        case FailStates.FearMax:
+                            txt.text = "It's terribly! We want to live. We must...we must burn he, before he sacrifice us! Go together!";
+                            break;
+
+                        case FailStates.GodDammed:
+                            txt.text = "Wretched slave! How dare you insult us?! You will be buried under the ruins of this pitiful temple!!!";
+                            break;
+                    }
+                }
+            }
+
+            Button restartButton = failPanel.GetComponentInChildren<Button>();
+
+            restartButton.GetComponentInChildren<Text>().text = "Restart the game";
+            restartButton.onClick.AddListener(RestartGame);
+        }
+    }
+    
+    
+    /// <summary>
+    /// проверка на фейл 
+    /// </summary>
+    /// <returns></returns>
+    private FailStates isFailed()
+    {
+        if (Population <= 0)
+        {
+            return FailStates.PopulationZero;
+        }
+        else if (Fear <= 0)
+        {            
+            return FailStates.FearZero;
+        }
+        else if (Fear >= 100)
+        {
+            return FailStates.FearMax;
+        }
+        else if (God1 <= 0 || God2 <= 0 || God3 <= 0)
+        {
+            return FailStates.GodDammed;
+        }
+
+        return FailStates.None;        
+    }
+
+    private enum FailStates
+    {
+        None,
+        PopulationZero,
+        FearMax,
+        FearZero,
+        GodDammed
+    }
+
+    /// <summary>
+    /// Проверка на вин
+    /// </summary>    
+    private bool isWin()
+    {
+
+        return false;
+    }
+
+    /// <summary>
+    /// Перезапуск игры
+    /// </summary>
+    private void RestartGame()
+    {
+        Cycle = 0;
+        Money = 20;
+        Fear = 5;
+        Population = 20;
+        God1 = 20;
+        God2 = 20;
+        God3 = 20;
+
+        if (failPanel != null)
+        {
+            Destroy(failPanel);
+            failPanel = null;
+        }
+
+        gameState = GameState.Start;
+    }
+
+    
 }
