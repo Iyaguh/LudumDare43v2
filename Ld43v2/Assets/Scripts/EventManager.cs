@@ -121,27 +121,27 @@ public class EventManager : Singleton<EventManager> {
         {
             return false;
         }
-        else if (gameHandler.Money < eventRequirements.moneyMin && eventRequirements.moneyMax > 0 ? gameHandler.Money > eventRequirements.moneyMax : true)
+        else if (gameHandler.Money < eventRequirements.moneyMin || eventRequirements.moneyMax > 0 ? gameHandler.Money > eventRequirements.moneyMax : false)
         {
             return false;
         }
-        else if (gameHandler.Population < eventRequirements.populationMin && eventRequirements.populationMax > 0 ? gameHandler.Population > eventRequirements.populationMax : true)
+        else if (gameHandler.Population < eventRequirements.populationMin || eventRequirements.populationMax > 0 ? gameHandler.Population > eventRequirements.populationMax : false)
         {
             return false;
         }
-        else if (gameHandler.Fear < eventRequirements.fearMin && eventRequirements.fearMax > 0 ? gameHandler.Fear > eventRequirements.fearMax : true)
+        else if (gameHandler.Fear < eventRequirements.fearMin || eventRequirements.fearMax > 0 ? gameHandler.Fear > eventRequirements.fearMax : false)
         {
             return false;
         }
-        else if (gameHandler.God1 < eventRequirements.god1Min && eventRequirements.god1Max > 0 ? gameHandler.God1 > eventRequirements.god1Max : true)
+        else if (gameHandler.God1 < eventRequirements.god1Min || eventRequirements.god1Max > 0 ? gameHandler.God1 > eventRequirements.god1Max : false)
         {
             return false;
         }
-        else if (gameHandler.God2 < eventRequirements.god2Min && eventRequirements.god2Max > 0 ? gameHandler.God2 > eventRequirements.god2Max : true)
+        else if (gameHandler.God2 < eventRequirements.god2Min || eventRequirements.god2Max > 0 ? gameHandler.God2 > eventRequirements.god2Max : false)
         {
             return false;
         }
-        else if (gameHandler.God3 < eventRequirements.god3Min && eventRequirements.god3Max > 0 ? gameHandler.God3 > eventRequirements.god3Max : true)
+        else if (gameHandler.God3 < eventRequirements.god3Min || eventRequirements.god3Max > 0 ? gameHandler.God3 > eventRequirements.god3Max : false)
         {
             return false;
         }        
