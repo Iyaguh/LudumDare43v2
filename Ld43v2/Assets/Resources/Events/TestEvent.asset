@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: TestEvent
   m_EditorClassIdentifier: 
   Name: 
-  Description: 
+  Description: test0
   eventRequarments:
     populationMin: 0
     populationMax: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     god3Min: 0
     god3Max: 0
   eventVariants:
-  - text: dsfdfsdfsdfsfdsfdsfdsf
+  - text: 1
     variantRequarments:
       populationMin: 0
       populationMax: 0
@@ -42,42 +42,19 @@ MonoBehaviour:
       god3Min: 0
       god3Max: 0
     eventResult:
-      populationChange: 0
-      moneyChange: 0
-      fearChange: 0
-      god1Change: 0
-      god2Change: 0
-      god3Change: 0
-      eventStatus:
-      - {fileID: 11400000, guid: e42d24c00bfdd5d4698729938f778520, type: 2}
-      eventToActivate: []
-      resultText: 
-  - text: "\u0432\u0430\u04402"
-    variantRequarments:
-      populationMin: 0
-      populationMax: 0
-      moneyMin: 0
-      moneyMax: 0
-      fearMin: 0
-      fearMax: 0
-      god1Min: 0
-      god1Max: 0
-      god2Min: 0
-      god2Max: 0
-      god3Min: 0
-      god3Max: 0
-    eventResult:
-      populationChange: 0
-      moneyChange: 0
-      fearChange: 0
-      god1Change: 0
-      god2Change: 0
-      god3Change: 0
+      populationChange: 2
+      moneyChange: 10
+      fearChange: 10
+      god1Change: 10
+      god2Change: 5
+      god3Change: 2
       eventStatus:
       - {fileID: 11400000, guid: e42d24c00bfdd5d4698729938f778520, type: 2}
       eventToActivate: []
       resultText: 
   eventToActivate: []
   isRepeat: 1
+  isOnCoolDown: 0
+  cycleWhenCoolDownStarted: 0
   isActive: 1
   coolDown: 0

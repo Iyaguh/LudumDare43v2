@@ -9,12 +9,6 @@ public class EventManager : Singleton<EventManager> {
 
     public GameHandler gameHandler;
 
-    //доступные эвенты
-    private List<Event> availibleEvents;
-
-    //эвенты не доступные из-за требований
-    private List<Event> notAvailableEvents;
-
     //Все события
     private Event [] allEvents;
 
@@ -35,36 +29,16 @@ public class EventManager : Singleton<EventManager> {
             return;
         }
 
-        notAvailableEvents = new List<Event>();
-        availibleEvents = new List<Event>();
-//        eventsInCooling = new List<EventCooling>();
-
-        for (int i = 0; i < allEvents.Length; i++)
-        {
-            notAvailableEvents.Add(allEvents[i]);
-        }
-
-        // создаем список доступных ивентов
-        for (int i = 0; i < allEvents.Length; i++)
-        {
-            if (allEvents[i].isActive)
-            {
-                availibleEvents.Add(allEvents[i]);
-            }
-        }
-
         poolOfEvents = new List<Event>();
-
-
-
     }
+
+
 
     /// <summary>
     /// Получить очередной эвент
     /// </summary>    
     public Event GetEvent()
     {
-        // 0. Вернуть ивенты с кулдауна
 
         for (int i = 0; i < allEvents.Length; i++)
         {
@@ -76,9 +50,6 @@ public class EventManager : Singleton<EventManager> {
         }
 
 
-        // 1. получить список активных ивентов
-
-
         for (int i = 0; i < allEvents.Length; i++)
         {
             if (allEvents[i].isActive)
@@ -86,15 +57,6 @@ public class EventManager : Singleton<EventManager> {
                 poolOfEvents.Add(allEvents[i]);
             }
         }
-
-        //  & AreRequirementsForEventMet(allEvents[i])
-
-
-        // 2. по этому списку проверить выполнение требований
-
-
-
-        // 3. случайным образом выбрать ивент
 
         Event eventToReturn;
 
@@ -114,32 +76,7 @@ public class EventManager : Singleton<EventManager> {
         poolOfEvents.Clear();
 
         return eventToReturn;
-        
-
-
-
-        //актуализация информации о доступных эвентах
-//        EventAccessUpdate();
-
-
-
-
-
-        /*
-
-        if (availibleEvents.Count == 0)
-        {
-            Debug.LogWarning("[Event Manager] Can't get any events");
-            return null;
-        }
-
-        int currEventIdx = Random.Range(0, availibleEvents.Count - 1);
-
-        eventsInCooling.Add(new EventCooling(availibleEvents[currEventIdx], gameHandler.Cycle));
-        Event retEvent = availibleEvents[currEventIdx];
-        availibleEvents.RemoveAt(currEventIdx);
-        return retEvent;
-        */
+       
     }
 
     public bool IsCoolDownOver (Event targetEvent)
@@ -153,26 +90,6 @@ public class EventManager : Singleton<EventManager> {
             return false;
         }
     }
-
-    /*
-
-    /// <summary>
-    /// Установка эвента в состояние активности/неактивности
-    /// </summary>
-    /// <param name="targetEvent">Целевой эвент</param>
-    /// <param name="isActivate">Сделать активным</param>
-    public void SetEventActive(Event targetEvent, bool isActivate)
-    {
-        if (notAvailableEvents.Contains(targetEvent))
-        {
-            int idx = notAvailableEvents.IndexOf(targetEvent);
-
-            notAvailableEvents[idx].isActive = isActivate;
-        }
-    }
-
-    */
-
 
     /// <summary>
     /// Применяем выбранный результат
@@ -189,103 +106,8 @@ public class EventManager : Singleton<EventManager> {
         gameHandler.God2 += eventResult.god2Change;
         gameHandler.God3 += eventResult.god3Change;
 
-        //статус
-        //TO_DO
-        /*
-        //активируем/деактивируем эвенты
-        if (!targetEvent.isRepeat)
-        {
-            for (int i=0; i<eventsInCooling.Count; i++)
-            {
-                if (eventsInCooling[i].ItEvent == targetEvent)
-                {
-                    eventsInCooling.RemoveAt(i);
-                    break;
-                }
-            }
-
-            notAvailableEvents.Add(targetEvent);
-
-            SetEventActive(targetEvent, false);            
-        }
-
-        for (int i=0; i < targetEvent.eventToActivate.Length; i++)
-        {
-            SetEventActive(targetEvent.eventToActivate[i], true);
-        }
-
-        for (int i=0; i< eventResult.eventToActivate.Length; i++)
-        {
-            SetEventActive(eventResult.eventToActivate[i], true);
-        }
-        */
-        //сообщаем EventUI что мы все
         EventUI.Instance.FinishEvent();
     }
-
-    
-
-
-
-
-        /*
-
-
-    /// <summary>
-    /// Актуализация доступности евентов
-    /// </summary>
-    private void EventAccessUpdate()
-    {
-        List<Event> eventToDisactivate = new List<Event>();
-
-        // удаляется ивент, который не соответствует требованиям из доступных ивентов.
-        for (int i=0; i < availibleEvents.Count; i++)
-        {
-            if (!AreRequirementsForEventMet(availibleEvents[i]))
-            {
-                eventToDisactivate.Add(availibleEvents[i]);                               
-                availibleEvents.RemoveAt(i);
-                i--;
-            }
-        }
-
-        // возвращает недоступные ивенты в список доступных
-
-        for (int i = 0; i < notAvailableEvents.Count; i++)
-        {
-            if (!AreRequirementsForEventMet(notAvailableEvents[i]))
-            {
-                availibleEvents.Add(notAvailableEvents[i]);
-                notAvailableEvents.RemoveAt(i);
-                i--;
-            }
-        }
-
-        notAvailableEvents.AddRange(eventToDisactivate);
-
-
-
-        for (int i = 0; i < eventsInCooling.Count; i++)
-        {
-            if (eventsInCooling[i].isCoolDown(gameHandler.Cycle))
-            {
-                if (AreRequirementsForEventMet(eventsInCooling[i].ItEvent))
-                {
-                    availibleEvents.Add(eventsInCooling[i].ItEvent);
-                }
-                else
-                {
-                    notAvailableEvents.Add(eventsInCooling[i].ItEvent);
-                }
-
-                eventsInCooling.RemoveAt(i);
-                i--;
-            }
-        }
-    }
-
-    */
-
 
     /// <summary>
     /// Проверяет эвент на доступность
@@ -293,72 +115,41 @@ public class EventManager : Singleton<EventManager> {
     /// <param name="targetEvent">Эвент для проверки</param>    
     private bool AreRequirementsForEventMet(Event targetEvent)
     {
-        EventRequarments eventRequarments = targetEvent.eventRequarments;
+        EventRequarments eventRequirements = targetEvent.eventRequarments;
 
         if (!targetEvent.isActive)
         {
             return false;
         }
-        else if (gameHandler.Money < eventRequarments.moneyMin && eventRequarments.moneyMax > 0 ? gameHandler.Money > eventRequarments.moneyMax : true)
+        else if (gameHandler.Money < eventRequirements.moneyMin && eventRequirements.moneyMax > 0 ? gameHandler.Money > eventRequirements.moneyMax : true)
         {
             return false;
         }
-        else if (gameHandler.Population < eventRequarments.populationMin && eventRequarments.populationMax > 0 ? gameHandler.Population > eventRequarments.populationMax : true)
+        else if (gameHandler.Population < eventRequirements.populationMin && eventRequirements.populationMax > 0 ? gameHandler.Population > eventRequirements.populationMax : true)
         {
             return false;
         }
-        else if (gameHandler.Fear < eventRequarments.fearMin && eventRequarments.fearMax > 0 ? gameHandler.Fear > eventRequarments.fearMax : true)
+        else if (gameHandler.Fear < eventRequirements.fearMin && eventRequirements.fearMax > 0 ? gameHandler.Fear > eventRequirements.fearMax : true)
         {
             return false;
         }
-        else if (gameHandler.God1 < eventRequarments.god1Min && eventRequarments.god1Max > 0 ? gameHandler.God1 > eventRequarments.god1Max : true)
+        else if (gameHandler.God1 < eventRequirements.god1Min && eventRequirements.god1Max > 0 ? gameHandler.God1 > eventRequirements.god1Max : true)
         {
             return false;
         }
-        else if (gameHandler.God2 < eventRequarments.god2Min && eventRequarments.god2Max > 0 ? gameHandler.God2 > eventRequarments.god2Max : true)
+        else if (gameHandler.God2 < eventRequirements.god2Min && eventRequirements.god2Max > 0 ? gameHandler.God2 > eventRequirements.god2Max : true)
         {
             return false;
         }
-        else if (gameHandler.God3 < eventRequarments.god3Min && eventRequarments.god3Max > 0 ? gameHandler.God3 > eventRequarments.god3Max : true)
+        else if (gameHandler.God3 < eventRequirements.god3Min && eventRequirements.god3Max > 0 ? gameHandler.God3 > eventRequirements.god3Max : true)
         {
             return false;
-        }
-        
-
+        }        
         return true;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            for (int i = 0; i < availibleEvents.Count; i++)
-            {
-                Debug.Log(poolOfEvents[i].name + " имя доступного ивента");
-            }
-        }
-    }
-
-    /*
-
-    private class EventCooling
-    {
-        public Event ItEvent { get { return _currentEvent; } }
-        private Event _currentEvent;
-        private int _cycleAtStart;
-
-        public EventCooling(Event currentEvent, int currentCycle)
-        {
-            _currentEvent = currentEvent;
-            _cycleAtStart = currentCycle;
-        }
-
-        public bool isCoolDown(int currentCycle)
-        {
-            return (currentCycle - _cycleAtStart >= _currentEvent.coolDown);
-        }
 
     }
-
-    */
 }

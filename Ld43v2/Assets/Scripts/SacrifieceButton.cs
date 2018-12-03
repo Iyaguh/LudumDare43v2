@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SacrifieceButton : MonoBehaviour {
 
+    public bool isChosen = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,6 +15,8 @@ public class SacrifieceButton : MonoBehaviour {
 	void Update () {
 		
 	}
+
+
 
     private void OnMouseOver()
     {

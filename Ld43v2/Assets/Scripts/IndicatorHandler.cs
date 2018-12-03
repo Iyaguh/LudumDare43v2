@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 
-public class IndicatorHandler : MonoBehaviour {
+public class IndicatorHandler : MonoBehaviour, IPointerEnterHandler
+{
 
     [SerializeField]
     TextMeshProUGUI numericalValueText;
+
+
+    public Slider targetSlider;
     public AudioClip thisIndicatorAudioClip;
 
 	// Use this for initialization
@@ -19,20 +25,47 @@ public class IndicatorHandler : MonoBehaviour {
 		
 	}
 
-    public void ChangeValue (float indicatorChange)
+    public void ChangeValue (float indicatorValue)
     {
-        numericalValueText.text = indicatorChange.ToString();
-        //play sound
-        //play animation
+        if (numericalValueText!=null)
+        {
+            numericalValueText.text = indicatorValue.ToString();
+            //play sound
+            //play animation
+        }
+
+
+        if (targetSlider != null)
+        {
+            indicatorValue = Mathf.Clamp(indicatorValue, 0f, 100f);
+            targetSlider.value = indicatorValue;
+        }
     }
 
     private void OnMouseOver()
     {
         Debug.Log("mouse is over element");
+        print("hi");
     }
 
-    public void ChangeValue (int indicatorChange)
+    public void ChangeValue(int indicatorValue)
     {
-        numericalValueText.text = indicatorChange.ToString();
+        if (numericalValueText != null)
+        {
+            numericalValueText.text = indicatorValue.ToString();
+            //play sound
+            //play animation
+        }
+
+    }
+
+    public void SetSlider(float targetValue)
+    {
+
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("entered");
     }
 }

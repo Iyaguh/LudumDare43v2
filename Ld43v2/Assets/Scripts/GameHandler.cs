@@ -26,6 +26,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             money = value;
+            moneyIndicator.ChangeValue(Money);
         }
         get
         {
@@ -38,6 +39,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             fear = value;
+            fearIndicator.ChangeValue(Fear);
         }
         get
         {
@@ -50,6 +52,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             population = value;
+            populationIndicator.ChangeValue(population);
         }
         get
         {
@@ -62,6 +65,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             god1 = value;
+            god1Indicator.ChangeValue(God1);
         }
         get
         {
@@ -74,6 +78,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             god2 = value;
+            god2Indicator.ChangeValue(God2);
         }
         get
         {
@@ -86,6 +91,7 @@ public class GameHandler : MonoBehaviour {
         set
         {
             god3 = value;
+            god3Indicator.ChangeValue(God3);
         }
         get
         {
@@ -94,7 +100,7 @@ public class GameHandler : MonoBehaviour {
     }
 
 
-    public enum GameState { Start, Event, PlayerChoice}
+    public enum GameState { Start, Event, PlayerChoice, ApplyEventResults, ApplySacrifieceResults}
     public GameState gameState = GameState.PlayerChoice;
 
 
@@ -105,6 +111,12 @@ public class GameHandler : MonoBehaviour {
     public GameObject eventPanelPrefab;
     public GameObject currentEventPanel;
     public IndicatorHandler cycleIndicator;
+    public IndicatorHandler moneyIndicator;
+    public IndicatorHandler fearIndicator;
+    public IndicatorHandler populationIndicator;
+    public IndicatorHandler god1Indicator;
+    public IndicatorHandler god2Indicator;
+    public IndicatorHandler god3Indicator;
 
 
     [Header("AudioReferences")]
@@ -115,10 +127,30 @@ public class GameHandler : MonoBehaviour {
     // Use this for initialization
     void Start () {
         gameState = GameState.Start;
+        DisplayAllIndicators();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+
+    private void DisplayAllIndicators()
+    {
+        IndicatorHandler[] allIndicators = FindObjectsOfType<IndicatorHandler>();
+        foreach (var indicator in allIndicators)
+        {
+
+        }
+
+        Money = Money;
+        Cycle = Cycle;
+        Population = Population;
+        God1 = God1;
+        God2 = God2;
+        God3 = God3;
+        Fear = Fear;
+
+    }
+
+    // Update is called once per frame
+    void Update () {
         CheckGameState();
 
     }
@@ -140,9 +172,17 @@ public class GameHandler : MonoBehaviour {
                 // вызвать функцию ивента
                 // деактивировать кнопки
             return;
+            case GameState.ApplyEventResults:
+
+
+                return;
 
             case GameState.PlayerChoice:
                 //активировать кнопки
+                return;
+
+            case GameState.ApplySacrifieceResults:
+
                 return;
         }
     }

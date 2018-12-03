@@ -15,7 +15,7 @@ public class EventUI : Singleton<EventUI>
 
     private TextMeshProUGUI _eventDescription;
 
-    private Button[] _chooses;
+    private Button[] _choices;
 
     private Event _currentEvent;
     private EventResult _currentResult;
@@ -42,9 +42,9 @@ public class EventUI : Singleton<EventUI>
             }
         }
 
-        _chooses = _eventPanel.GetComponentsInChildren<Button>();
+        _choices = _eventPanel.GetComponentsInChildren<Button>();
 
-        foreach (Button button in _chooses)
+        foreach (Button button in _choices)
         {            
             button.gameObject.SetActive(false);
         }
@@ -52,8 +52,8 @@ public class EventUI : Singleton<EventUI>
         //при начале эвента
         //_chooses[0].onClick.AddListener(Choose_1);
 
-        _chooses[1].onClick.AddListener(Choose_2);
-        _chooses[2].onClick.AddListener(Choose_3);
+        _choices[1].onClick.AddListener(Choice_2);
+        _choices[2].onClick.AddListener(Choice_3);
 
         _eventPanel.SetActive(false);
 
@@ -64,7 +64,7 @@ public class EventUI : Singleton<EventUI>
     /// </summary>
     public void StartEvent()
     {
-        _chooses[0].onClick.AddListener(Choose_1);
+        _choices[0].onClick.AddListener(Choice_1);
 
         _currentEvent = EventManager.Instance.GetEvent();
 
@@ -79,11 +79,11 @@ public class EventUI : Singleton<EventUI>
 
         for (int i = 0; i < _currentEvent.eventVariants.Length; i++)
         {
-            if (i >= _chooses.Length)
+            if (i >= _choices.Length)
                 break;
 
-            _chooses[i].gameObject.SetActive(true);
-            Text txt = _chooses[i].gameObject.GetComponentInChildren<Text>();
+            _choices[i].gameObject.SetActive(true);
+            Text txt = _choices[i].gameObject.GetComponentInChildren<Text>();
             txt.text = _currentEvent.eventVariants[i].text;           
         }
 
@@ -91,19 +91,19 @@ public class EventUI : Singleton<EventUI>
     }
 
     // Обработка выборов
-    void Choose_1()
+    void Choice_1()
     {
         _currentResult = _currentEvent.eventVariants[0].eventResult;
         EventManager.Instance.DoEventResult(_currentEvent , _currentResult);        
     }
 
-    void Choose_2()
+    void Choice_2()
     {
         _currentResult = _currentEvent.eventVariants[1].eventResult;
         EventManager.Instance.DoEventResult(_currentEvent, _currentResult);        
     }
 
-    void Choose_3()
+    void Choice_3()
     {
         _currentResult = _currentEvent.eventVariants[2].eventResult;
         EventManager.Instance.DoEventResult(_currentEvent, _currentResult);        
@@ -114,29 +114,29 @@ public class EventUI : Singleton<EventUI>
     /// </summary>
     public void FinishEvent()
     {
-        foreach (Button button in _chooses)
+        foreach (Button button in _choices)
         {
             button.gameObject.SetActive(false);
         }
 
-        Text txt = _chooses[0].gameObject.GetComponentInChildren<Text>();
+        Text txt = _choices[0].gameObject.GetComponentInChildren<Text>();
 
         txt.text = "Продолжить";
 
-        _chooses[0].gameObject.SetActive(true);
+        _choices[0].gameObject.SetActive(true);
 
         _eventDescription.text += _currentResult.resultText;
 
-        _chooses[0].onClick.RemoveListener(Choose_1);
-        _chooses[0].onClick.AddListener(ExitEventDisplay);
+        _choices[0].onClick.RemoveListener(Choice_1);
+        _choices[0].onClick.AddListener(ExitEventDisplay);
 
     }
 
     public void ExitEventDisplay()
     {
-        _chooses[0].onClick.RemoveListener(ExitEventDisplay);
+        _choices[0].onClick.RemoveListener(ExitEventDisplay);
 
-        foreach (Button button in _chooses)
+        foreach (Button button in _choices)
         {
             button.gameObject.SetActive(false);
         }
