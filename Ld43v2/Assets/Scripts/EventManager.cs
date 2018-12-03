@@ -52,7 +52,7 @@ public class EventManager : Singleton<EventManager> {
 
         for (int i = 0; i < allEvents.Length; i++)
         {
-            if (allEvents[i].isActive)
+            if (allEvents[i].isActive && AreRequirementsForEventMet(allEvents[i])) //todo
             {
                 poolOfEvents.Add(allEvents[i]);
             }
@@ -97,6 +97,19 @@ public class EventManager : Singleton<EventManager> {
     /// <param name="targetEvent">Эвент, чей результат</param>
     /// <param name="eventResult">Сам результат</param>
     public void DoEventResult(Event targetEvent, EventResult eventResult)
+    {
+        //мгновенный результат
+        gameHandler.Money += eventResult.moneyChange;
+        gameHandler.Population += eventResult.populationChange;
+        gameHandler.Fear += eventResult.fearChange;
+        gameHandler.God1 += eventResult.god1Change;
+        gameHandler.God2 += eventResult.god2Change;
+        gameHandler.God3 += eventResult.god3Change;
+
+        EventUI.Instance.FinishEvent();
+    }
+
+    public void DoEventResult(EventResult eventResult)
     {
         //мгновенный результат
         gameHandler.Money += eventResult.moneyChange;

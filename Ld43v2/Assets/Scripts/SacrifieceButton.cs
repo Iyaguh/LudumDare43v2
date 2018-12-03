@@ -6,7 +6,8 @@ public class SacrifieceButton : MonoBehaviour {
 
     public bool isChosen = false;
     public TempleIndicators templeIndicator;
-    public float relationshipWithGodChange;
+    public int moneyChange;
+    public int relationshipWithGodChange;
 
     // Use this for initialization
     void Start () {
@@ -28,5 +29,7 @@ public class SacrifieceButton : MonoBehaviour {
     public void Clicked ()
     {
         templeIndicator.realtionshipWithGodChange = relationshipWithGodChange;
+        templeIndicator.sacrifieceResult.moneyChange = moneyChange;
+        templeIndicator.ActivateArrowButtons(true);
     }
 }
