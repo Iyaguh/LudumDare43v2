@@ -5,9 +5,11 @@ using UnityEngine;
 public class SacrifieceButton : MonoBehaviour {
 
     public bool isChosen = false;
+    public TempleIndicators templeIndicator;
+    public float relationshipWithGodChange;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -21,5 +23,10 @@ public class SacrifieceButton : MonoBehaviour {
     private void OnMouseOver()
     {
         Debug.Log("mouse is over element");
+    }
+
+    public void Clicked ()
+    {
+        templeIndicator.realtionshipWithGodChange = relationshipWithGodChange;
     }
 }
