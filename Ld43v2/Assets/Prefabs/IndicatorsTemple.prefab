@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114634311902845338}
   - component: {fileID: 114843615184766746}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: ButtonArrow3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 222973649866207356}
   - component: {fileID: 114193441765575686}
   - component: {fileID: 114742704253694422}
+  - component: {fileID: 114898812632268958}
   m_Layer: 5
   m_Name: ButtonSmallSacrifiece
   m_TagString: Untagged
@@ -76,7 +77,7 @@ GameObject:
   - component: {fileID: 114256983808791386}
   - component: {fileID: 114830736239002458}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonArrow1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,6 +130,7 @@ GameObject:
   - component: {fileID: 224739537855453144}
   - component: {fileID: 222587740143421484}
   - component: {fileID: 114719519046803510}
+  - component: {fileID: 114276132308400216}
   m_Layer: 5
   m_Name: IndicatorsTemple
   m_TagString: Untagged
@@ -164,6 +166,7 @@ GameObject:
   - component: {fileID: 222614998996119912}
   - component: {fileID: 114417921005864194}
   - component: {fileID: 114717506491163066}
+  - component: {fileID: 114433492543433240}
   m_Layer: 5
   m_Name: ButtonMediumSacrifiece
   m_TagString: Untagged
@@ -183,7 +186,7 @@ GameObject:
   - component: {fileID: 114197445877389858}
   - component: {fileID: 114693268601258568}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: ButtonArrow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,6 +364,36 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114276132308400216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626378083983126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ee23048cfa29d478420fdb48878136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smallSacrifiece: {fileID: 0}
+  realtionshipWithGodChange: 0
+  eventManager: {fileID: 0}
+  sacrifieceResult:
+    populationChange: 0
+    moneyChange: 0
+    fearChange: 0
+    god1Change: 0
+    god2Change: 0
+    god3Change: 0
+    eventStatus: []
+    eventToActivate: []
+    resultText: 
+  arrowButton1: {fileID: 1174282263500062}
+  arrowButton2: {fileID: 1969588989693410}
+  arrowButton3: {fileID: 1088181058488132}
+  sacrifieceButton1: {fileID: 114601211169351024}
+  sacrifieceButton2: {fileID: 114433492543433240}
+  sacrifieceButton3: {fileID: 114898812632268958}
 --- !u!114 &114310078730136620
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,8 +433,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: PlayerChoiceMade
+      - m_Target: {fileID: 114601211169351024}
+        m_MethodName: Clicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -473,6 +506,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114433492543433240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1834034409130374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc20c90aac389524daa67b5e17eaaa68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChosen: 0
+  templeIndicator: {fileID: 114276132308400216}
+  moneyChange: 2
+  relationshipWithGodChange: 3
 --- !u!114 &114601211169351024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -486,8 +534,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isChosen: 0
   templeIndicator: {fileID: 0}
-  moneyChange: 0
-  relationshipWithGodChange: 0
+  moneyChange: 3
+  relationshipWithGodChange: 5
 --- !u!114 &114634311902845338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -553,7 +601,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114197445877389858}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114276132308400216}
+        m_MethodName: Click2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114717506491163066
@@ -594,7 +653,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114417921005864194}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114433492543433240}
+        m_MethodName: Clicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114719519046803510
@@ -662,7 +732,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114193441765575686}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114898812632268958}
+        m_MethodName: Clicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114830736239002458
@@ -704,8 +785,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: EventFinished
+      - m_Target: {fileID: 114276132308400216}
+        m_MethodName: Click1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -755,9 +836,35 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114634311902845338}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114276132308400216}
+        m_MethodName: Click3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114898812632268958
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1129202345643876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc20c90aac389524daa67b5e17eaaa68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChosen: 0
+  templeIndicator: {fileID: 114276132308400216}
+  moneyChange: 1
+  relationshipWithGodChange: 2
 --- !u!114 &114995382035446294
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,7 +9,7 @@ public class ToolTipShower : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     /// <summary>
     /// Задержка перед показом tooltip
     /// </summary>
-    public int delay = 0;
+    public float delay = 0;
 
     /// <summary>
     /// Текст tooltip

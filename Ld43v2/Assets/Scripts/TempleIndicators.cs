@@ -25,7 +25,8 @@ public class TempleIndicators : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        sacrifieceResult = new EventResult();		
+        sacrifieceResult = new EventResult();
+        ActivateArrowButtons(false);
 	}
 
 
@@ -57,7 +58,7 @@ public class TempleIndicators : MonoBehaviour {
         eventManager.DoEventResult(sacrifieceResult);
         ActivateArrowButtons(false);
         CancelSelectionSacrifieceButtons();
-
+        sacrifieceResult = new EventResult();
     }
 
     public void Click2()
@@ -66,6 +67,7 @@ public class TempleIndicators : MonoBehaviour {
         eventManager.DoEventResult(sacrifieceResult);
         ActivateArrowButtons(false);
         CancelSelectionSacrifieceButtons();
+        sacrifieceResult = new EventResult();
     }
 
     public void Click3()
@@ -74,6 +76,7 @@ public class TempleIndicators : MonoBehaviour {
         eventManager.DoEventResult(sacrifieceResult);
         ActivateArrowButtons(false);
         CancelSelectionSacrifieceButtons();
+        sacrifieceResult = new EventResult();
     }
 
 
